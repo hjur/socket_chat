@@ -8,6 +8,19 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+app.io = require('socket.io')();
+app.io.on('connection', (socket) => {
+  // socket connection callback fn
+  console.log("(☞ﾟヮﾟ)☞  socket connect1  ☜(ﾟヮﾟ☜)")
+  socket.on('chat-msg-1', (msg) => {
+    console.log("(☞ﾟヮﾟ)☞  socket connect2  ☜(ﾟヮﾟ☜)",msg)
+    app.io.emit('chat-msg-2', msg);
+  })
+
+  socket.on('disconnect', () => {
+    //console.log("(☞ﾟヮﾟ)☞  socket disconnect‼  ☜(ﾟヮﾟ☜)")
+  })
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
